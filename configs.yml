@@ -1,0 +1,17 @@
+ga_parameters:
+  time_budget: 300
+  proportion_test_insertion: 0.1
+  p_crossover: 0.75
+  p_mutation: 0.7
+  population_size: 100
+  p_cache: 0.5
+  max_generations: 100
+  crossover_type: uniform
+  mutation_type: uniform
+  parent_selection_type: roulette_wheel
+sut_settings:
+  protected_features: protected_features
+  model_filepath: model_filepath
+  variable_boundaries_filepath: variable_boundaries_filepath
+  valid_inputs_dir: valid_inputs_dir
+  categorical_variables_dir: categorical_variables_dir
