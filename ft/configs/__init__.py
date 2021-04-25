@@ -1,0 +1,1 @@
+from ft.configs import configs_manager
