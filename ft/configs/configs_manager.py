@@ -23,6 +23,8 @@ class ConfigsManager:
     valid_inputs_dir = ''
     categorical_variables_dir = ''
 
+    primary_logger_type = 'console'
+
     def __init__(self, workspace_dir):
         self.workspace_dir = workspace_dir
 
@@ -36,7 +38,14 @@ class ConfigsManager:
         return configs
 
     @staticmethod
-    def get_instance(workspace_dir):
+    def get_instance():
+        if ConfigsManager.instance is not None:
+            return ConfigsManager.instance
+        else:
+            print('Error!')
+
+    @staticmethod
+    def create_instance(workspace_dir):
         if ConfigsManager.instance is None:
             ConfigsManager.instance = ConfigsManager(workspace_dir)
 
@@ -60,3 +69,5 @@ class ConfigsManager:
         self.variable_boundaries_filepath = configs.get('sut_settings').get('variable_boundaries_filepath')
         self.valid_inputs_dir = configs.get('sut_settings').get('valid_inputs_dir')
         self.categorical_variables_dir = configs.get('sut_settings').get('categorical_variables_dir')
+
+        self.primary_logger_type = configs.get('log').get('primary_logger_type')

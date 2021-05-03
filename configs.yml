@@ -15,3 +15,5 @@ sut_settings:
   variable_boundaries_filepath: variable_boundaries_filepath
   valid_inputs_dir: valid_inputs_dir
   categorical_variables_dir: categorical_variables_dir
+log:
+  primary_logger_type: console

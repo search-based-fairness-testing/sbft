@@ -13,6 +13,7 @@ from ft.ga.operators.mutation.mutation_function_factory import MutationFunctionF
 from ft.ga.operators.selection.selection_function_factory import SelectionFunctionFactory
 from ft.ga.genetic_algorithm import GeneticAlgorithm
 from ft.configs.configs_manager import ConfigsManager
+from ft.loggers.logger_factory import LoggerFactory
 
 
 WORKSPACE_DIR = sys.argv[1]
@@ -26,7 +27,8 @@ def main():
 class SBFT:
 
     def __init__(self):
-        pass
+        self.configs_manager = ConfigsManager.create_instance(WORKSPACE_DIR)
+        self.logger = LoggerFactory.get_logger(__class__.__name__)
 
     def load_object(self, filename):
         with open(filename, 'rb') as file:
@@ -52,31 +54,33 @@ class SBFT:
         return cat_vars_df['code'].tolist()
 
     def run(self):
-        configs_manager = ConfigsManager.get_instance(WORKSPACE_DIR)
-        configs_manager.load_configs()
+        # configs_manager = ConfigsManager.create_instance(WORKSPACE_DIR)
+        self.configs_manager.load_configs()
 
-        time_budget = configs_manager.time_budget
-        proportion_test_insertion = configs_manager.proportion_test_insertion
-        p_crossover = configs_manager.p_crossover
-        p_mutation = configs_manager.p_mutation
-        population_size = configs_manager.population_size
-        p_cache = configs_manager.p_cache
-        max_generations = configs_manager.max_generations
+        self.logger.debug('Loaded Configurations.')
 
-        crossover_type = configs_manager.crossover_type
-        mutation_type = configs_manager.mutation_type
-        parent_selection_type = configs_manager.parent_selection_type
+        time_budget = self.configs_manager.time_budget
+        proportion_test_insertion = self.configs_manager.proportion_test_insertion
+        p_crossover = self.configs_manager.p_crossover
+        p_mutation = self.configs_manager.p_mutation
+        population_size = self.configs_manager.population_size
+        p_cache = self.configs_manager.p_cache
+        max_generations = self.configs_manager.max_generations
 
-        protected_features = configs_manager.protected_features
+        crossover_type = self.configs_manager.crossover_type
+        mutation_type = self.configs_manager.mutation_type
+        parent_selection_type = self.configs_manager.parent_selection_type
 
-        model_filepath = configs_manager.model_filepath
+        protected_features = self.configs_manager.protected_features
+
+        model_filepath = self.configs_manager.model_filepath
 
         model_pyobject = self.load_object(model_filepath)
         features = model_pyobject['features']
         model = model_pyobject['model']
 
         # variables and their bounds
-        var_bound_fp = configs_manager.variable_boundaries_filepath
+        var_bound_fp = self.configs_manager.variable_boundaries_filepath
         var_bound_df = pd.read_csv(var_bound_fp)
 
         var_types = []
@@ -87,9 +91,9 @@ class SBFT:
         valid_inputs = dict()
 
         for feature in features:
-            self.load_valid_inputs(configs_manager.valid_inputs_dir, valid_inputs, feature)
-            if self.is_cat_var(configs_manager.categorical_variables_dir, feature):
-                all_categories = self.load_categories(configs_manager.categorical_variables_dir, feature)
+            self.load_valid_inputs(self.configs_manager.valid_inputs_dir, valid_inputs, feature)
+            if self.is_cat_var(self.configs_manager.categorical_variables_dir, feature):
+                all_categories = self.load_categories(self.configs_manager.categorical_variables_dir, feature)
                 if feature in protected_features:
                     var_bounds_protected[feature] = all_categories
                     var_types_protected[feature] = 'cat'
