@@ -5,11 +5,14 @@ import copy
 import math
 
 from ft.testcase.testcase import TestCase
+from ft.loggers.logger_factory import LoggerFactory
 
 
 class GeneticAlgorithm:
 
     def __init__(self, ga_operators, ga_parameters, sut_settings):
+        self.logger = LoggerFactory.get_logger(__class__.__name__)
+
         self.fitness_function = ga_operators['fitness_function']
         self.crossover_function = ga_operators['crossover']
         self.mutation_function = ga_operators['mutation']
@@ -45,6 +48,7 @@ class GeneticAlgorithm:
         pass
 
     def initialise_population(self):
+        self.logger.debug('Initialising population...')
         self.population = np.array([TestCase(self.dimension, self.variable_types, self.variable_bounds)] * self.population_size)
 
         for population_index in range(0, self.population_size):
@@ -52,8 +56,12 @@ class GeneticAlgorithm:
             self.generate_random_solution(testcase)
             self.fitnesses[population_index] = self.fitness_function.evaluate_fitness(testcase)
 
+            self.logger.debug('Population index - %d | [%s]' % (population_index, testcase.to_string()))
+
             if self.archive_test_inputs:
                 self.archive_test_input(testcase)
+
+        self.logger.debug('Finished initialising population.')
 
     def time_taken_since_start(self):
         current_time = datetime.datetime.now()
@@ -72,12 +80,18 @@ class GeneticAlgorithm:
             return False
 
     def local_search(self, solution):
+        self.logger.debug('Local search on the best solution in the current population.')
+        self.logger.debug('Best solution - %s' % solution.to_string())
+
         search_order = list()
         for index in range(0, len(self.variable_types)):
             search_order.append(index)
         np.random.shuffle(search_order)
+        self.logger.debug('Order of variables to perform the local search (indices) %s' % str(search_order))
 
         current_fitness = solution.get_fitness()
+        self.logger.debug('Current fitness - %.4f' % current_fitness)
+
         for index in search_order:
             solution_copy = copy.deepcopy(solution)
             test_input_copy = solution_copy.get_test_input()
@@ -85,6 +99,8 @@ class GeneticAlgorithm:
             (test_input_copy[index]).local_search()
             self.input_validate_function(test_input_copy)
             new_fitness = self.fitness_function.evaluate_fitness(solution_copy)
+            self.logger.debug('Intermediary solution - %s' % solution_copy.to_string())
+            self.logger.debug('New fitness - %.4f | Current fitness - %.4f' % (new_fitness, current_fitness))
 
             if self.archive_test_inputs:
                 self.archive_test_input(solution_copy)
@@ -92,6 +108,8 @@ class GeneticAlgorithm:
             if new_fitness > current_fitness:
                 current_fitness = new_fitness
                 solution = solution_copy
+
+        self.logger.debug('Local search finished. Returning the best solution - %s' % solution.to_string())
 
         return solution
 
@@ -150,6 +168,7 @@ class GeneticAlgorithm:
         self.current_generation += 1
 
     def run(self):
+        self.logger.debug('Start running genetic algorithm...')
         self.start_time = datetime.datetime.now()
         self.initialise_population()
 
@@ -162,6 +181,13 @@ class GeneticAlgorithm:
         fitnesses_sorted[0] = best_solution.get_fitness()
 
         self.current_generation = 0
+        self.logger.debug('current generation - %d, current fitness - %.4f' % (self.current_generation,
+                                                                               fitnesses_sorted[0]))
+
+        # sort the population
+        population_copy = self.population
+        for index in range(0, self.population_size):
+            self.population[index] = population_copy[fitnesses_sorted[index]]
 
         while not self.stopping_criteria():
             self.evolve()

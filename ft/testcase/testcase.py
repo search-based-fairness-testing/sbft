@@ -22,3 +22,11 @@ class TestCase:
 
     def get_fitness(self):
         return self.fitness
+
+    def to_string(self):
+        out_str = ''
+        for variable in self.test_input:
+            out_str += str(variable.get_value()) + ', '
+
+        out_str += ('fitness - %.4f' % self.fitness)
+        return out_str

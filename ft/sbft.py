@@ -55,9 +55,8 @@ class SBFT:
 
     def run(self):
         # configs_manager = ConfigsManager.create_instance(WORKSPACE_DIR)
+        self.logger.debug('Loading Configurations...')
         self.configs_manager.load_configs()
-
-        self.logger.debug('Loaded Configurations.')
 
         time_budget = self.configs_manager.time_budget
         proportion_test_insertion = self.configs_manager.proportion_test_insertion
@@ -78,6 +77,7 @@ class SBFT:
         model_pyobject = self.load_object(model_filepath)
         features = model_pyobject['features']
         model = model_pyobject['model']
+        self.logger.debug('Features - ' + str(features))
 
         # variables and their bounds
         var_bound_fp = self.configs_manager.variable_boundaries_filepath
@@ -97,9 +97,13 @@ class SBFT:
                 if feature in protected_features:
                     var_bounds_protected[feature] = all_categories
                     var_types_protected[feature] = 'cat'
+                    self.logger.debug('Protected feature - %s and type - cat' % feature)
+                    self.logger.debug('Values - ' + str(all_categories))
                 else:
                     var_bounds.append(all_categories)
                     var_types.append('cat')
+                    self.logger.debug('Feature - %s and type - cat' % feature)
+                    self.logger.debug('Values - ' + str(all_categories))
             else:
                 feature_index = 0
                 for feature_in_df in var_bound_df['feature']:
@@ -121,8 +125,12 @@ class SBFT:
 
                 if feature in protected_features:
                     var_types_protected[feature] = type_name
+                    self.logger.debug('Protected feature - %s and type - %s' % (feature, type_name))
+                    self.logger.debug('Values - ' + str(bounds))
                 else:
                     var_types.append(type_name)
+                    self.logger.debug('Feature - %s and type - %s' % (feature, type_name))
+                    self.logger.debug('Values - ' + str(bounds))
 
         var_types = np.array(var_types)
         var_bounds = np.array(var_bounds, dtype=list)
@@ -145,6 +153,8 @@ class SBFT:
         ga_parameters = {'max_generations': max_generations, 'population_size': population_size, 'max_time': time_budget,
                          'proportion_test_insertion': proportion_test_insertion}
 
+        self.logger.debug('GA parameters - ' + str(ga_parameters))
+
         # SUT settings
         sut_settings = {'variable_types': var_types, 'variable_bounds': var_bounds, 'dimension': len(var_types),
                         'input_validate_function': self.validate_input}
@@ -158,7 +168,11 @@ class SBFT:
                         'mutation': mutation_function, 'selection': selection_function}
 
         genetic_algorithm = GeneticAlgorithm(ga_operators, ga_parameters, sut_settings)
+
+        self.logger.debug('Running GA...')
         fairness_degree = genetic_algorithm.run()
+        self.logger.debug('Finished running GA.')
+
         print('Fairness Degree: %f' % fairness_degree)
 
     @staticmethod
