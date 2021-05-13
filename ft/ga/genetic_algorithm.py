@@ -49,9 +49,9 @@ class GeneticAlgorithm:
 
     def initialise_population(self):
         self.logger.debug('Initialising population...')
-        self.population = np.array([TestCase(self.dimension, self.variable_types, self.variable_bounds)] * self.population_size)
 
         for population_index in range(0, self.population_size):
+            self.population[population_index] = TestCase(self.dimension, self.variable_types, self.variable_bounds)
             testcase = self.population[population_index]
             self.generate_random_solution(testcase)
             self.fitnesses[population_index] = self.fitness_function.evaluate_fitness(testcase)
@@ -174,20 +174,24 @@ class GeneticAlgorithm:
 
         fitnesses_sorted = list(collections.OrderedDict(
             sorted(self.fitnesses.items(), key=lambda item: item[1], reverse=True)).keys())
+        self.logger.debug('Population indices sorted by fitness - %s' % str(fitnesses_sorted))
 
-        pop_index_best_fitness = fitnesses_sorted[0]    # next(iter(fitnesses_sorted.keys()))
-        best_solution = self.local_search(self.population[pop_index_best_fitness])
-        self.population[pop_index_best_fitness] = best_solution
-        self.fitnesses[pop_index_best_fitness] = best_solution.get_fitness()
+        # sort the population
+        self.logger.debug('Sorting the population...')
+        population_copy = np.empty_like(self.population)
+        population_copy[:] = self.population
+        for index in range(0, self.population_size):
+            self.population[index] = population_copy[fitnesses_sorted[index]]
+            self.fitnesses[index] = self.population[index].get_fitness()
+            self.logger.debug('Population index - %d | [%s]' % (index, self.population[index].to_string()))
+
+        best_solution = self.local_search(self.population[0])
+        self.population[0] = best_solution
+        self.fitnesses[0] = best_solution.get_fitness()
 
         self.current_generation = 0
         self.logger.debug('current generation - %d, current fitness - %.4f' % (self.current_generation,
-                                                                               fitnesses_sorted[0]))
-
-        # sort the population
-        population_copy = self.population
-        for index in range(0, self.population_size):
-            self.population[index] = population_copy[fitnesses_sorted[index]]
+                                                                               self.fitnesses[0]))
 
         while not self.stopping_criteria():
             self.evolve()
