@@ -178,7 +178,7 @@ class GeneticAlgorithm:
         pop_index_best_fitness = fitnesses_sorted[0]    # next(iter(fitnesses_sorted.keys()))
         best_solution = self.local_search(self.population[pop_index_best_fitness])
         self.population[pop_index_best_fitness] = best_solution
-        fitnesses_sorted[0] = best_solution.get_fitness()
+        self.fitnesses[pop_index_best_fitness] = best_solution.get_fitness()
 
         self.current_generation = 0
         self.logger.debug('current generation - %d, current fitness - %.4f' % (self.current_generation,
