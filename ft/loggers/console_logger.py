@@ -9,4 +9,4 @@ class ConsoleLogger(Logger):
 
     def debug(self, message):
         current_datetime = datetime.now()
-        print('[' + self.class_name + '][' + str(current_datetime) + '] ' + message)
+        print('[DEBUG][' + str(current_datetime) + '][' + self.class_name + '] ' + message)
