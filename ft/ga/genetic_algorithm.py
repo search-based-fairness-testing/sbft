@@ -122,8 +122,8 @@ class GeneticAlgorithm:
         for offspring_round_index in range(0, int(self.population_size / 2)):
             self.logger.debug('Offspring round index - %d | selecting parents...' % offspring_round_index)
             parents = self.selection_function.select_parents(self.population, 2)
-            self.logger.debug('Offspring round index - %d | parent 1 (ignore fitness) - [%s]' % (offspring_round_index, parents[0].to_string()))
-            self.logger.debug('Offspring round index - %d | parent 2 (ignore fitness) - [%s]' % (offspring_round_index, parents[1].to_string()))
+            self.logger.debug('Offspring round index - %d | parent 1 - [%s]' % (offspring_round_index, parents[0].to_string()))
+            self.logger.debug('Offspring round index - %d | parent 2 - [%s]' % (offspring_round_index, parents[1].to_string()))
 
             self.logger.debug('Offspring round index - %d | crossing over parents...' % offspring_round_index)
             children_interim = self.crossover_function.crossover(parents[0], parents[1])
@@ -169,10 +169,21 @@ class GeneticAlgorithm:
         return offspring_population
 
     def elitism(self, union_population):
+        self.logger.debug('Selecting test cases to the next generation using Elitism strategy.')
+        self.logger.debug('Current generation - %d, union population size - %d' % (self.current_generation, len(union_population)))
+
         fitnesses_sorted = list(collections.OrderedDict(
             sorted(self.fitnesses.items(), key=lambda item: item[1], reverse=True)).keys())
+        self.logger.debug('Population indices sorted by fitness - %s' % str(fitnesses_sorted))
+
+        self.fitnesses.clear()
         for index in range(0, self.population_size):
             self.population[index] = union_population[fitnesses_sorted[index]]
+            self.fitnesses[index] = self.population[index].get_fitness()
+            self.logger.debug('Population index - %d | [%s]' % (index, self.population[index].to_string()))
+
+        self.logger.debug('Finished selecting population to the next generation.')
+        self.logger.debug('Current generation - %d, population size - %d' % (self.current_generation, len(self.population)))
 
     def evolve(self):
         offspring_population = self.breed_next_generation()
@@ -181,8 +192,11 @@ class GeneticAlgorithm:
 
         best_solution = self.local_search(self.population[0])
         self.population[0] = best_solution
+        self.fitnesses[0] = best_solution.get_fitness()
 
         self.current_generation += 1
+        self.logger.debug('Current generation - %d, current fitness - %.4f' % (self.current_generation,
+                                                                               self.fitnesses[0]))
 
     def run(self):
         self.logger.debug('Start running genetic algorithm...')
@@ -207,7 +221,7 @@ class GeneticAlgorithm:
         self.fitnesses[0] = best_solution.get_fitness()
 
         self.current_generation = 0
-        self.logger.debug('current generation - %d, current fitness - %.4f' % (self.current_generation,
+        self.logger.debug('Current generation - %d, current fitness - %.4f' % (self.current_generation,
                                                                                self.fitnesses[0]))
 
         self.logger.debug('Start evolving test cases...')
