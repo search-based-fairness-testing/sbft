@@ -13,3 +13,23 @@ where *y*<sub>*i*</sub> and *y*<sub>*j*</sub> are the outputs for inputs *x*<sub
 
 # How to use SBFT?
 
+Parameter Settings
+------------
+| Parameter                 | Description                                      | Default Value  | 
+|---------------------------|--------------------------------------------------|---------------:|
+| time_budget               | Execution time (seconds)                         |     7200       | 
+| proportion_test_insertion | Rate of random test insertion in every iteration |      0.1       |
+| p_crossover               | Crossover probability                            |     0.75       |
+| p_mutation                | Mutation probability                             |      0.8       | 
+| population_size           | Population size                                  |      100       |
+| p_cache                   | Probability of using cache in fitness evaluation |      0.5       |
+| max_generations           | Maximum number of generations                    |     1000       |
+| crossover_type            | Crossover type                                   |  uniform       |
+| mutation_type             | Mutation type                                    |  uniform       |
+| parent_selection_type     | Parent selection type                            | roulette_wheel |
+| protected_features        | Sensitive attributes, i.e., protected features   |        -       |
+| model_filepath            | Filepath to the model                            |        -       |
+| variable_boundaries_filepath | Filepath to the variable boundaries file      |        -       |
+| valid_inputs_dir             | Path to the directory containing valid inputs for categorical variables |        -       |
+| categorical_variables_dir    | Path to the directory containing categorical variables                  |        -       |
+| primary_logger_type          | Primary logger type                           |   console      |
