@@ -7,7 +7,9 @@ pairs of instances (*x*<sub>*i*</sub>,*x*<sub>*j*</sub>) that are
 identical apart from the sensitive attribute, i.e.,
 *x*<sub>*i*</sub><sup>*s*</sup> ≠ *x*<sub>*j*</sub><sup>*s*</sup>.
 
-*D* = max<sub>∀*i*, *j*</sub>\|*y*<sub>*i*</sub>−*y*<sub>*j*</sub>\|; *x*<sub>*i*</sub><sup>*s*</sup> ≠ *x*<sub>*j*</sub><sup>*s*</sup>
+*D* = max<sub>∀*i*, *j*</sub>\|*y*<sub>*i*</sub>−*y*<sub>*j*</sub>\|; *x*<sub>*i*</sub><sup>*s*</sup> ≠ *x*<sub>*j*</sub><sup>*s*</sup> & *x*<sub>*i*</sub><sup>*k*</sup> = *x*<sub>*j*</sub><sup>*k*</sup>; ∀*k* ≠ *s*
+
+where *y*<sub>*i*</sub> and *y*<sub>*j*</sub> are the outputs for inputs *x*<sub>*i*</sub> and *x*<sub>*i*</sub>.
 
 # How to use SBFT?
 
