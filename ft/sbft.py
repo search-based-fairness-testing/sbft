@@ -6,6 +6,13 @@ import math
 import pandas as pd
 import sys
 
+current_path = os.path.dirname(os.path.realpath(__file__))
+current_path = current_path[:-3]
+try:
+    sys.path.index(current_path)
+except ValueError:
+    sys.path.append(current_path)
+
 from ft.ga.fitness_function import FitnessFunction
 from ft.testcase.variable_factory import VariableFactory
 from ft.ga.operators.crossover.crossover_function_factory import CrossoverFunctionFactory
@@ -181,5 +188,4 @@ class SBFT:
 
 
 if __name__ == '__main__':
-    sbft = SBFT()
-    sbft.run()
+    main()
