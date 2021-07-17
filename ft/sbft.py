@@ -33,8 +33,31 @@ def main():
 
 
 class SBFT:
+    """
+    Search-based fairness testing
+
+    Parameters
+    ----------
+
+    Attributes
+    ----------
+    configs_manager : ConfigsManager
+        ConfigsManager instance
+    logger: Logger
+        Logger instance
+    """
 
     def __init__(self):
+        """
+        Constructor
+
+        Parameters
+        ----------
+
+        Raises
+        ------
+
+        """
         self.configs_manager = ConfigsManager.create_instance(WORKSPACE_DIR)
         self.configs_manager.load_configs()
         LoggingUtils.get_instance().debug('Loaded Configurations.')
@@ -47,6 +70,24 @@ class SBFT:
         return object_o
 
     def is_cat_var(self, cat_vars_dir, feature):
+        """
+        Check if the feature is a categorical variable
+
+        Parameters
+        ----------
+        cat_vars_dir : str
+            Path to the directory containing categorical variables
+        feature: str
+            Name of the feature
+
+        Raises
+        ------
+
+        Returns
+        -------
+        bool
+            True if the feature is categorical and False otherwise
+        """
         cat_vars_fp = os.path.join(cat_vars_dir, feature + '.csv')
         if os.path.exists(cat_vars_fp):
             return True
@@ -54,11 +95,42 @@ class SBFT:
         return False
 
     def load_categories(self, cat_vars_dir, feature):
+        """
+        Load all valid values for the categorical variable; feature
+
+        Parameters
+        ----------
+        cat_vars_dir : str
+            Path to the directory containing categorical variables
+        feature: str
+            Name of the feature
+
+        Raises
+        ------
+
+        Returns
+        -------
+        list
+            List of values for the categorical variable; feature
+        """
         cat_vars_fp = os.path.join(cat_vars_dir, feature + '.csv')
         cat_vars_df = pd.read_csv(cat_vars_fp)
         return cat_vars_df['code'].tolist()
 
     def run(self):
+        """
+        Run SBFT
+
+        Parameters
+        ----------
+
+        Raises
+        ------
+
+        Returns
+        -------
+
+        """
         time_budget = self.configs_manager.time_budget
         proportion_test_insertion = self.configs_manager.proportion_test_insertion
         p_crossover = self.configs_manager.p_crossover
