@@ -1,6 +1,7 @@
 from ft.testcase.integer import Integer
 from ft.testcase.real import Real
 from ft.testcase.categorical import Categorical
+from ft.utils.logging_utils import LoggingUtils
 
 
 class VariableFactory:
@@ -14,4 +15,5 @@ class VariableFactory:
         elif variable_type == "cat":
             return Categorical(variable_bound)
         else:
-            print('Error')
+            LoggingUtils.get_instance().error('[%s] Variable type %s is not supported!' %
+                                              (__class__.__name__, variable_type))

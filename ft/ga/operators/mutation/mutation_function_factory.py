@@ -1,5 +1,6 @@
 from ft.ga.operators.mutation.mutation_function import MutationFunction
 from ft.ga.operators.mutation.uniform_mutation import UniformMutation
+from ft.utils.logging_utils import LoggingUtils
 
 
 class MutationFunctionFactory:
@@ -9,4 +10,5 @@ class MutationFunctionFactory:
         if mutation_type == "uniform":
             return UniformMutation(p_mutation, dimension)
         else:
-            print('Error')
+            LoggingUtils.get_instance().error('[%s] Mutation type %s is not supported!' %
+                                              (__class__.__name__, mutation_type))

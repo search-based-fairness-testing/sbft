@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import datetime
 from ft.configs.configs_manager import ConfigsManager
 
 
@@ -28,7 +29,8 @@ class LoggingUtils:
         print(message)
 
     def error(self, message):
-        print(message)
+        current_datetime = datetime.now()
+        print('[ERROR][' + str(current_datetime) + ']' + message)
 
     def get_primary_logger_type(self):
         return self.primary_logger_type

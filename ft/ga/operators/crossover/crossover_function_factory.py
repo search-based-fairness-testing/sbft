@@ -1,5 +1,6 @@
 from ft.ga.operators.crossover.crossover_function import CrossoverFunction
 from ft.ga.operators.crossover.uniform_crossover import UniformCrossover
+from ft.utils.logging_utils import LoggingUtils
 
 
 class CrossoverFunctionFactory:
@@ -9,4 +10,5 @@ class CrossoverFunctionFactory:
         if crossover_type == "uniform":
             return UniformCrossover(p_crossover, dimension)
         else:
-            print('Error')
+            LoggingUtils.get_instance().error('[%s] Crossover type %s is not supported!' %
+                                              (__class__.__name__, crossover_type))
