@@ -24,6 +24,7 @@ class ConfigsManager:
     categorical_variables_dir = ''
 
     primary_logger_type = 'console'
+    log_level = 'info'
 
     def __init__(self, workspace_dir):
         self.workspace_dir = workspace_dir
@@ -71,3 +72,4 @@ class ConfigsManager:
         self.categorical_variables_dir = configs.get('sut_settings').get('categorical_variables_dir')
 
         self.primary_logger_type = configs.get('log').get('primary_logger_type')
+        self.log_level = configs.get('log').get('log_level')

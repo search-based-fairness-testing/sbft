@@ -14,6 +14,7 @@ from ft.ga.operators.selection.selection_function_factory import SelectionFuncti
 from ft.ga.genetic_algorithm import GeneticAlgorithm
 from ft.configs.configs_manager import ConfigsManager
 from ft.loggers.logger_factory import LoggerFactory
+from ft.utils.logging_utils import LoggingUtils
 
 
 WORKSPACE_DIR = sys.argv[1]
@@ -28,6 +29,9 @@ class SBFT:
 
     def __init__(self):
         self.configs_manager = ConfigsManager.create_instance(WORKSPACE_DIR)
+        self.configs_manager.load_configs()
+        LoggingUtils.get_instance().debug('Loaded Configurations.')
+
         self.logger = LoggerFactory.get_logger(__class__.__name__)
 
     def load_object(self, filename):
@@ -54,10 +58,6 @@ class SBFT:
         return cat_vars_df['code'].tolist()
 
     def run(self):
-        # configs_manager = ConfigsManager.create_instance(WORKSPACE_DIR)
-        self.logger.debug('Loading Configurations...')
-        self.configs_manager.load_configs()
-
         time_budget = self.configs_manager.time_budget
         proportion_test_insertion = self.configs_manager.proportion_test_insertion
         p_crossover = self.configs_manager.p_crossover

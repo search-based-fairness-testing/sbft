@@ -17,3 +17,4 @@ sut_settings:
   categorical_variables_dir: categorical_variables_dir
 log:
   primary_logger_type: console
+  log_level: debug
