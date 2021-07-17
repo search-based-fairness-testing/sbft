@@ -20,7 +20,6 @@ class ConfigsManager:
     protected_features = list()
     model_filepath = ''
     variable_boundaries_filepath = ''
-    valid_inputs_dir = ''
     categorical_variables_dir = ''
 
     primary_logger_type = 'console'
@@ -68,7 +67,6 @@ class ConfigsManager:
         self.protected_features = [configs.get('sut_settings').get('protected_features')]
         self.model_filepath = configs.get('sut_settings').get('model_filepath')
         self.variable_boundaries_filepath = configs.get('sut_settings').get('variable_boundaries_filepath')
-        self.valid_inputs_dir = configs.get('sut_settings').get('valid_inputs_dir')
         self.categorical_variables_dir = configs.get('sut_settings').get('categorical_variables_dir')
 
         self.primary_logger_type = configs.get('log').get('primary_logger_type')

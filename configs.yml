@@ -13,7 +13,6 @@ sut_settings:
   protected_features: protected_features
   model_filepath: model_filepath
   variable_boundaries_filepath: variable_boundaries_filepath
-  valid_inputs_dir: valid_inputs_dir
   categorical_variables_dir: categorical_variables_dir
 log:
   primary_logger_type: console

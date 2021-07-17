@@ -46,12 +46,6 @@ class SBFT:
             object_o = pickle.load(file)
         return object_o
 
-    def load_valid_inputs(self, valid_inputs_dir, valid_inputs, feature):
-        valid_inputs_fp = os.path.join(valid_inputs_dir, feature + '.csv')
-        if os.path.exists(valid_inputs_fp):
-            valid_inputs_df = pd.read_csv(valid_inputs_fp)
-            valid_inputs[feature] = np.array(valid_inputs_df['code'])
-
     def is_cat_var(self, cat_vars_dir, feature):
         cat_vars_fp = os.path.join(cat_vars_dir, feature + '.csv')
         if os.path.exists(cat_vars_fp):
@@ -95,10 +89,7 @@ class SBFT:
         var_types_protected = dict()
         var_bounds_protected = dict()
 
-        valid_inputs = dict()
-
         for feature in features:
-            self.load_valid_inputs(self.configs_manager.valid_inputs_dir, valid_inputs, feature)
             if self.is_cat_var(self.configs_manager.categorical_variables_dir, feature):
                 all_categories = self.load_categories(self.configs_manager.categorical_variables_dir, feature)
                 if feature in protected_features:

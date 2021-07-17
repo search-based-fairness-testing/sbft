@@ -33,8 +33,7 @@ All the parameters are defined in [configs.yml](https://github.com/search-based-
 | protected_features        | Sensitive attributes, i.e., protected features   |        -       |
 | model_filepath            | Filepath to the model                            |        -       |
 | variable_boundaries_filepath | Filepath to the variable boundaries file      |        -       |
-| valid_inputs_dir             | Path to the directory containing valid inputs for categorical variables |        -       |
-| categorical_variables_dir    | Path to the directory containing categorical variables                  |        -       |
+| categorical_variables_dir    | Path to the directory containing categorical variables |        -       |
 | primary_logger_type          | Primary logger type                           |   console      |
 
 Steps to Run SBFT
