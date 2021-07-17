@@ -15,6 +15,9 @@ where *y*<sub>*i*</sub> and *y*<sub>*j*</sub> are the outputs for inputs *x*<sub
 
 Parameter Settings
 ------------
+
+All the parameters are defined in [configs.yml](https://github.com/search-based-fairness-testing/sbft/blob/5d3f9d81180bbd8ae263fc271bdd8c5de6f1a799/configs.yml)
+
 | Parameter                 | Description                                      | Default Value  | 
 |---------------------------|--------------------------------------------------|---------------:|
 | time_budget               | Execution time (seconds)                         |     7200       | 
