@@ -52,3 +52,5 @@ Currently, SBFT can be run by executing the source code.
 
     - `cd sbft`
     - `python3 -u ft/sbft.py <path to workspace dir>`
+
+# Publications
