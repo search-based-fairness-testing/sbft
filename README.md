@@ -36,3 +36,19 @@ All the parameters are defined in [configs.yml](https://github.com/search-based-
 | valid_inputs_dir             | Path to the directory containing valid inputs for categorical variables |        -       |
 | categorical_variables_dir    | Path to the directory containing categorical variables                  |        -       |
 | primary_logger_type          | Primary logger type                           |   console      |
+
+Steps to Run SBFT
+------------
+
+Currently, SBFT can be run by executing the source code.
+
+1. Clone SBFT:
+
+    - `git clone https://github.com/search-based-fairness-testing/sbft.git`
+
+2. Configure the parameters listed above and locate the [configs.yml](https://github.com/search-based-fairness-testing/sbft/blob/5d3f9d81180bbd8ae263fc271bdd8c5de6f1a799/configs.yml) file in the workspace directory.
+
+3. Run SBFT
+
+    - `cd sbft`
+    - `python3 -u ft/sbft.py <path to workspace dir>`
