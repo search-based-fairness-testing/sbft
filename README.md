@@ -53,3 +53,18 @@ Currently, SBFT can be run by executing the source code.
     - `python3 -u ft/sbft.py <path to workspace dir>`
 
 # Publications
+
+If you use the SBFT tool, please cite:
+
+```
+@article{perera2022search,
+  title={Search-based fairness testing for regression-based machine learning systems},
+  author={Perera, Anjana and Aleti, Aldeida and Tantithamthavorn, Chakkrit and Jiarpakdee, Jirayus and Turhan, Burak and Kuhn, Lisa and Walker, Katie},
+  journal={Empirical Software Engineering},
+  volume={27},
+  number={3},
+  pages={1--36},
+  year={2022},
+  publisher={Springer}
+}
+```
